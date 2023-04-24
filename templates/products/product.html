@@ -1,0 +1,167 @@
+{% extends 'base.html'%}
+{% load humanize %}
+
+{% block title %}
+| {{ product.title }}
+{% endblock%}
+{% block content %}
+{% if product %}
+ 
+ <section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h1 class="display-4">{{ product.title }}</h1>
+          <p class="lead">
+            <i class="fas "></i><span class="ml-1">{{ product.sport }}</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Breadcrumb -->
+ <section id="bc" class="mt-3">
+    <div class="container">
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index' %}">Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="{% url 'products' %}">Products</a>
+          </li>
+          <li class="breadcrumb-item active">{{ product.title }}</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Listing -->
+  <section id="listing" class="py-4">
+    <div class="container">
+      <a href="{% url 'products' %}" class="btn btn-light mb-4">Back To Products</a>
+      <div class="row">
+        <div class="col-md-9">
+          <!-- Home Main Image -->
+          <img src="{{ product.photo_main.url }}" alt="" class="img-main img-fluid mb-3">
+          <!-- Thumbnails -->
+          <div class="row mb-5 thumbs">
+            {% if product.photo_1 %}
+              <div class="col-md-2">
+                <a href="{{product.photo_1.url}}" data-lightbox="home-images">
+                  <img src="{{product.photo_1.url}}" alt="" class="img-fluid">
+                </a>
+              </div>
+            {% endif %}
+            {% if product.photo_2 %}
+              <div class="col-md-2">
+                <a href="{{product.photo_2.url}}" data-lightbox="home-images">
+                  <img src="{{product.photo_2.url}}" alt="" class="img-fluid">
+                </a>
+              </div>
+            {% endif %}
+            {% if product.photo_3 %}
+              <div class="col-md-2">
+                <a href="{{product.photo_3.url}}" data-lightbox="home-images">
+                  <img src="{{product.photo_3.url}}" alt="" class="img-fluid">
+                </a>
+              </div>
+            {% endif %}
+            {% if product.photo_4 %}
+              <div class="col-md-2">
+                <a href="{{product.photo_4.url}}" data-lightbox="home-images">
+                  <img src="{{product.photo_4.url}}" alt="" class="img-fluid">
+                </a>
+              </div>
+            {% endif %}
+            {% if product.photo_5 %}
+              <div class="col-md-2">
+                <a href="{{product.photo_5.url}}" data-lightbox="home-images">
+                  <img src="{{product.photo_5.url}}" alt="" class="img-fluid">
+                </a>
+              </div>
+            {% endif %}
+            {% if product.photo_6 %}
+              <div class="col-md-2">
+                <a href="{{product.photo_6.url}}" data-lightbox="home-images">
+                  <img src="{{product.photo_6.url}}" alt="" class="img-fluid">
+                </a>
+              </div>
+            {% endif %}
+          </div>
+          <!-- Fields -->
+          <div class="row mb-5 fields">
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-money-bill-alt"></i> Price
+                  <span class="float-right">₹{{ product.price }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fab fa-angellist"></i> Brand:
+                  <span class="float-right">{{ product.brand }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fab "></i> Dimensions:
+                  <span class="float-right">{{ product.dimensions}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-futbol"></i> Sport:
+                  <span class="float-right">{{ product.sport }}
+                  </span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas "></i> Units Remaining:
+                  <span class="float-right">{{ product.units_remaining}}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-male" ></i>  Vendor:
+                  <span class="float-right"> {{ product.vendor.first_name}} {{ product.vendor.last_name }}
+                  </span>
+                </li>
+
+
+              </ul>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="sr-only">Sport</label>
+              <select name="sport" class="form-control">
+                <option selected="true" disabled="disabled">Select Units To order</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+              </select>
+            </div>
+            <div>
+            <a href="vendor_dashboard.html" class="btn btn-light mb-4">Buy Now</a>
+            </div>
+            <div class="col-md-6 mb-3">
+          <div>
+            <a href="vendor_dashboard.html" class="btn btn-light mb-4">Add to Cart</a>
+          </div>
+          </div>
+          </div>
+
+          </div>
+
+          
+
+          <!-- Description -->
+          <div class="row mb-5">
+            <div class="col-md-12">
+              {{ product.description }}
+          </div>
+        </div>
+  </section>
+  {% endif %}
+{% endblock %}

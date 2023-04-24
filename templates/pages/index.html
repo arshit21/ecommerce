@@ -1,0 +1,138 @@
+{% extends 'base.html'%}
+{% load humanize %}
+{% load static %}
+{% block title%}
+| Welcome
+{% endblock %}
+{% block content %}
+<!-- Showcase -->
+<section id="showcase">
+    <div class="container text-center">
+      <div class="home-search p-5">
+        <div class="overlay p-5">
+          <h1 class="display-4 mb-4">
+            Welcome to The Sport Store
+          </h1>
+          <p class="lead">Search for the best sport items</p>
+          <div class="search">
+            <form action="search.html">
+              <!-- Form Row 2 -->
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label class="sr-only">Sport</label>
+                  <select name="sport" class="form-control">
+                    <option selected="true" disabled="disabled">Select sport</option>
+                    <option value="Cricket">Cricket</option>
+                    <option value="Football">Football</option>
+                    <option value="Badminton">Badminton</option>
+                    <option value="Basketball">Basketball</option>
+                    <option value="Lawn Tennis">Lawn Tennis</option>
+                    <option value="Hockey">Hockey</option>
+                    <option value="Swimming">Swimming</option>
+                    <option value="Squash">Squash</option>
+                    <option value="Table Tennis">Table Tennis</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <select name="price" class="form-control" id="type">
+                    <option selected="true" disabled="disabled">Max Price (Any)</option>
+                    <option value="500">₹500</option>
+                    <option value="1000">₹1,000</option>
+                    <option value="2000">₹2,000</option>
+                    <option value="3000">₹3,000</option>
+                    <option value="4000">₹4,000</option>
+                    <option value="5000">₹5,000</option>
+                    <option value="10000">₹10,000</option>
+                    <option value="200000">₹20,000</option>
+                    <option value="500000">₹50,000</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Alerts -->
+{% include 'partials/_alerts.html' %}
+
+  <!-- Products -->
+<section id="listings" class="py-5">
+  <div class="container">
+    <h3 class="text-center mb-3">Our Products</h3>
+    <div class="row">
+        {% if products %}
+        {% for product in products %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card listing-preview">
+              <img class="card-img-top" src="{{ product.photo_main.url }}" height="300" width="150"alt="{{ product.title }}">
+              <div class="card-img-overlay">
+                <h2>
+                  <span class="badge badge-secondary text-white">₹{{ product.price | intcomma }}</span>
+                </h2>
+              </div>
+              <div class="card-body">
+                <div class="listing-heading text-center">
+                  <h4 class="text-primary">{{ product.title }}</h4>
+                </div>
+                <hr>
+                <div class="row py-2 text-secondary">
+                  <div class="col-6">
+                    <i class="fas fa-futbol"></i> {{ product.sport }}</div>
+                </div>
+                <div class="row py-2 text-secondary">
+                  <div class="col-6">
+                    <i class="fab fa-angellist"></i> {{ product.brand }}</div>
+                </div>
+                <div class="row py-2 text-secondary">
+                  <div class="col-6">
+                    <i class="fas fa-user"></i> {{ product.vendor.first_name}} {{ product.vendor.last_name }}</div>
+                </div>
+                <div class="row text-secondary pb-2">
+                  <div class="col-6">
+                    <i class="fas fa-clock"></i> {{ product.list_date | timesince }}</div>
+                </div>
+                <hr>
+                <a href="{% url 'product' product.id %}" class="btn btn-primary btn-block">More Info</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-md-12">
+            <p>No Products Available</p>
+          </div>
+        {% endif %}
+  </section>
+
+  <section id="services" class="py-5 bg-secondary text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-4">
+          <i class="fas fa-comment fa-4x mr-4"></i>
+          <hr>
+          <h3>Sell your products with us</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
+            hic dignissimos ratione ea quae.</p>
+            <a href="{% url 'register_vendor' %}" class="btn btn-primary btn-block">Become a vendor</a>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-home fa-4x mr-4"></i>
+          <hr>
+          <h3>Buy the best quality sports goods</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
+            hic dignissimos ratione ea quae.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-suitcase fa-4x mr-4"></i>
+          <hr>
+          <h3>Fastest and Safest delivery options</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
+            hic dignissimos ratione ea quae.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
