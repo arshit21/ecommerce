@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+| Add Money
+{% endblock %}
+{% block content %}
+<section id="" class="bg-light py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              <h4>
+                <i class="fas fa-money-bill-alt"></i> Add Money</h4>
+            </div>
+            <div class="card-body">
+              <!-- Alerts -->
+              {% include 'partials/_alerts.html' %}
+              <form action="{% url 'add_money' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="balance">Add Amount</label>
+                  <input type="number" min="0" name="balance" class="form-control" required>
+                </div>
+
+                <input type="submit" value="Add Money" class="btn btn-secondary btn-block">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

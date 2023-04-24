@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages, auth
 from .models import User, Customer, Vendor
 
@@ -92,10 +92,10 @@ def login(request):
         return render(request, 'accounts/login.html')
 
 def customer_dashboard(request):
-    current_user = request.user
-    customer = Customer.objects.filter(username=current_user.username)
+    username = request.user.username
+    customer = Customer.objects.filter(username=username)
     context = {
-        'customer': customer
+        'customers': customer
     }
     return render(request, 'accounts/customer_dashboard.html', context)
 
@@ -107,3 +107,16 @@ def logout(request):
         auth.logout(request)
         messages.success(request, 'You are now logged out')
         return redirect('index')
+    
+def add_money(request):
+    if request.method == 'POST':
+        money_to_add = request.POST['balance']
+        money = int(money_to_add)
+        username = request.user.username
+        customer = get_object_or_404(Customer, username=username)     
+        customer.balance = customer.balance + money
+        customer.save()
+        messages.success(request, 'Money Has Been Added')
+        return redirect('customer_dashboard')
+    else:
+        return render(request, 'accounts/add_money.html')
