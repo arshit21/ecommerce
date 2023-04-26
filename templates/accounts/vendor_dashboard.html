@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load humanize %}
 {% block title %}
 | Vendor Dashboard
 {% endblock%}
@@ -14,6 +14,8 @@
     </div>
   </div>
 </section>
+<!-- Alerts -->
+{% include 'partials/_alerts.html' %}
 
 <!-- Breadcrumb -->
 <section id="bc" class="mt-3">
@@ -21,7 +23,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="index.html">
+          <a href="{% url 'index' %}">
             <i class="fas fa-home"></i> Home</a>
         </li>
         <li class="breadcrumb-item active"> Dashboard</li>
@@ -30,47 +32,54 @@
   </div>
 </section>
 
-<section id="dashboard" class="py-4">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2>Welcome John</h2>
-        <p>Here are the property listings that you have inquired about</p>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Property</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>22</td>
-              <td>45 Drivewood Circle</td>
-              <td>
-                <a class="btn btn-light" href="#">View Listing</a>
-              </td>
-            </tr>
-            <tr>
-              <td>43</td>
-              <td>22 Westbrook rd</td>
-              <td>
-                <a class="btn btn-light" href="#">View Listing</a>
-              </td>
-            </tr>
-            <tr>
-              <td>31</td>
-              <td>12 Samson Ave</td>
-              <td>
-                <a class="btn btn-light" href="#">View Listing</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- Products -->
+  <section id="listings" class="py-5">
+    <div class="container">
+      <h3 class="text-center mb-3">Your Products</h3>
+      <a href="{% url 'add_product' %}" class="btn btn-light mb-4">Add new Product</a>
+      <div class="row">
+          {% if products %}
+          {% for product in products %}
+          <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card listing-preview">
+                <img class="card-img-top" src="{{ product.photo_main.url }}" height="300" width="150"alt="{{ product.title }}">
+                <div class="card-img-overlay">
+                  <h2>
+                    <span class="badge badge-secondary text-white">₹{{ product.price | intcomma }}</span>
+                  </h2>
+                </div>
+                <div class="card-body">
+                  <div class="listing-heading text-center">
+                    <h4 class="text-primary">{{ product.title }}</h4>
+                  </div>
+                  <hr>
+                  <div class="row py-2 text-secondary">
+                    <div class="col-6">
+                      <i class="fas fa-futbol"></i> {{ product.sport }}</div>
+                  </div>
+                  <div class="row py-2 text-secondary">
+                    <div class="col-6">
+                      <i class="fab fa-angellist"></i> {{ product.brand }}</div>
+                  </div>
+                  <div class="row py-2 text-secondary">
+                    <div class="col-6">
+                      <i class="fas fa-user"></i> {{ product.vendor.first_name}} {{ product.vendor.last_name }}</div>
+                  </div>
+                  <div class="row text-secondary pb-2">
+                    <div class="col-6">
+                      <i class="fas fa-clock"></i> {{ product.list_date | timesince }}</div>
+                  </div>
+                  <hr>
+                  <a href="{% url 'product' product.id %}" class="btn btn-primary btn-block">More Info</a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          {% else %}
+          <div class="col-md-12">
+              <p>No Products Available</p>
+            </div>
+          {% endif %}
+    </section>
 
 {% endblock %}

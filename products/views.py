@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from .models import product
+from .choices import sport_choices, price_choices
 
 def index(request):
 
@@ -19,4 +20,22 @@ def Product(request, product_id):
         'product': Product
     }
     return render(request, 'products/product.html', context)
+
+def search(request):
+    queryset_list = product.objects.all()
+    if 'sport' in request.GET:
+        sport = request.GET['sport']
+        if sport:
+            queryset_list = queryset_list.filter(sport__iexact=sport)
+    if 'price' in request.GET:
+        price = request.GET['price']
+        if price:
+            queryset_list = queryset_list.filter(price__lte=price)
+    context = {
+        'sport_choices': sport_choices,
+        'price_choices': price_choices,
+        'products': queryset_list,
+        'values': request.GET
+    }
+    return render(request, 'products/search.html', context)
 

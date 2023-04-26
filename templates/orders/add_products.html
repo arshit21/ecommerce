@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title%}
+| Add Product
+{% endblock %}
+{% block content %}
+<section id="register" class="bg-light py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              <h4>
+                <i class="fas fa-user-plus"></i> Add Your Product</h4>
+            </div>
+            <div class="card-body">
+                {% include 'partials/_alerts.html' %}
+                <form action="{% url 'add_product' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                  <div class="form-group">
+                  <label for="brand">Brand</label>
+                  <input type="text" name="brand" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="title">Title</label>
+                  <input type="text" name="title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="price">Price</label>
+                  <input type="number" name="price" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="sport">Sport</label>
+                  <input type="text" name="sport" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <input type="text" name="description" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="units_remaining">Units Remaining</label>
+                    <input type="number" name="units_remaining" class="form-control" required>
+                  </div>
+                <div class="form-group">
+                    <label for="dimensions">Dimensions</label>
+                    <input type="text" name="dimensions" class="dimensions" required>
+                </div>
+                <div class="form-group">
+                    <label for="photo_main">Main Photo</label>
+                    <input type="file" name="photo_main" id="id_docfile" required>
+              </div>
+              <div class="form-group">
+                    <label for="photo_1">1st Photo</label>
+                    <input type="file" name="photo_1" id="id_docfile" required>
+                </div>
+                <div class="form-group">
+                    <label for="photo_2">2nd Photo</label>
+                    <input type="file" name="photo_2" id="id_docfile" required>
+                </div>
+                <div class="form-group">
+                    <label for="photo_3">3rd Photo</label>
+                    <input type="file" name="photo_3" id="id_docfile">
+                </div>
+                <input type="submit" value="Add Product" class="btn btn-secondary btn-block">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

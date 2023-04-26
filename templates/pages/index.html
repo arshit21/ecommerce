@@ -1,6 +1,5 @@
 {% extends 'base.html'%}
 {% load humanize %}
-{% load static %}
 {% block title%}
 | Welcome
 {% endblock %}
@@ -15,37 +14,25 @@
           </h1>
           <p class="lead">Search for the best sport items</p>
           <div class="search">
-            <form action="search.html">
+            <form action="{% url 'search' %}">
               <!-- Form Row 2 -->
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label class="sr-only">Sport</label>
                   <select name="sport" class="form-control">
-                    <option selected="true" disabled="disabled">Select sport</option>
-                    <option value="Cricket">Cricket</option>
-                    <option value="Football">Football</option>
-                    <option value="Badminton">Badminton</option>
-                    <option value="Basketball">Basketball</option>
-                    <option value="Lawn Tennis">Lawn Tennis</option>
-                    <option value="Hockey">Hockey</option>
-                    <option value="Swimming">Swimming</option>
-                    <option value="Squash">Squash</option>
-                    <option value="Table Tennis">Table Tennis</option>
+                    <option selected="true" disabled="disabled">Sport</option>
+                      {% for key, value in sport_choices.items %}
+                        <option value="{{ key }}">{{ value }}</option>
+                      {% endfor %}
                   </select>
                 </div>
                 <div class="col-md-6 mb-3">
                   <select name="price" class="form-control" id="type">
                     <option selected="true" disabled="disabled">Max Price (Any)</option>
-                    <option value="500">₹500</option>
-                    <option value="1000">₹1,000</option>
-                    <option value="2000">₹2,000</option>
-                    <option value="3000">₹3,000</option>
-                    <option value="4000">₹4,000</option>
-                    <option value="5000">₹5,000</option>
-                    <option value="10000">₹10,000</option>
-                    <option value="200000">₹20,000</option>
-                    <option value="500000">₹50,000</option>
-                  </select>
+                    {% for key, value in price_choices.items %}
+                      <option value="{{ key }}">{{ value }}</option>
+                    {% endfor %}
+                    </select>
                 </div>
               </div>
               <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>

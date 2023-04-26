@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages, auth
 from .models import User, Customer, Vendor
+from products.models import product
 
 def register_customer(request):
     if request.method == 'POST':
@@ -100,7 +101,14 @@ def customer_dashboard(request):
     return render(request, 'accounts/customer_dashboard.html', context)
 
 def vendor_dashboard(request):
-    return render(request, 'accounts/vendor_dashboard.html')
+    username = request.user.username
+    vendors = Vendor.objects.filter(username=username)
+    for vendor in vendors:
+        products = product.objects.filter(vendor=vendor)
+    context = {
+        'products': products
+    }
+    return render(request, 'accounts/vendor_dashboard.html', context)
 
 def logout(request):
     if request.method == "POST":
