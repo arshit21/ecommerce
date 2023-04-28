@@ -35,8 +35,11 @@
       </nav>
     </div>
   </section>
+    <!-- Alerts -->
+{% include 'partials/_alerts.html' %}
+  
 
-  <!-- Listing -->
+  <!-- Product -->
   <section id="listing" class="py-4">
     <div class="container">
       <a href="{% url 'products' %}" class="btn btn-light mb-4">Back To Products</a>
@@ -127,29 +130,26 @@
 
               </ul>
             </div>
-            <div class="col-md-4 mb-3">
-              <label class="sr-only">Sport</label>
-              <select name="sport" class="form-control">
-                <option selected="true" disabled="disabled">Select Units To order</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
+
+            {% if user.is_customer %}
+            <form action="{% url 'buy_now' product.id %}" method="POST">
+              {% csrf_token %}
+            <div class="col-md-16 mb-3">
+              <label class="sr-only"></label>
+              <select name="units" class="form-control">
+                <option selected="true" disabled="disabled">Select Units (Default = 1)</option>
+                {% for key, value in units_choices.items %}
+                  <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
               </select>
             </div>
             <div>
-            <a href="vendor_dashboard.html" class="btn btn-light mb-4">Buy Now</a>
+            <input type="submit" value="Buy Now" class="btn btn-light mb-4">
             </div>
-            <div class="col-md-6 mb-3">
           <div>
-            <a href="vendor_dashboard.html" class="btn btn-light mb-4">Add to Cart</a>
+            <button class="btn btn-light mb-4" type="submit">Add to Cart</button>
           </div>
-          </div>
+          {% endif %}
           </div>
 
           </div>

@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Vendor
 from django.contrib import messages
+from .models import order
 from products.models import product
+from accounts.models import Customer
 
 def add_product(request):
     username = request.user.username
@@ -40,3 +42,38 @@ def add_product(request):
         else:
             messages.error(request, 'You are not a vendor')
             redirect('index')
+
+
+def buy_now(request, product_id):
+    if request.method == 'POST':
+        customer_username = request.user.username
+        customers = Customer.objects.filter(username=customer_username)
+        Product = get_object_or_404(product, pk=product_id)
+        if request.POST['units']:          
+            units = request.POST['units']
+            units = int(units)
+        else:
+            units = 1
+        price = Product.price
+        for customer in customers:
+            balance = customer.balance
+            balance = int(balance)
+            cost = price*units
+            if cost > balance:
+                messages.error(request, 'Insufficient balance')
+                return redirect('product', product_id)
+            elif units > Product.units_remaining:
+                messages.error(request, 'Out of Stock')
+                return redirect('product', product_id)               
+            else:
+                customer.balance = balance - cost
+                Product.units_remaining = Product.units_remaining - units
+                Product.sales = Product.sales + units
+                Order = order.objects.create(customer_username=customer_username, units_ordered=units, money=cost)
+                Order.Product.add(Product)
+                Product.save()
+                Order.save()
+                customer.save()
+                messages.success(request, 'The product has been ordered')
+                return redirect('index')
+                

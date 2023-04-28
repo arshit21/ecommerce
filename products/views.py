@@ -1,12 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from .models import product
 from .choices import sport_choices, price_choices
+from orders.choices import units_choices
+from django.contrib import messages
 
 def index(request):
 
-    products = product.objects.order_by('-list_date')
-    paginator = Paginator(products, 3)
+    products = product.objects.order_by('-sales')
+    paginator = Paginator(products, 6)
     page = request.GET.get('page')
     paged_products = paginator.get_page(page)
     context = {
@@ -17,7 +19,8 @@ def index(request):
 def Product(request, product_id):
     Product = get_object_or_404(product, pk=product_id)
     context = {
-        'product': Product
+        'product': Product,
+        'units_choices': units_choices
     }
     return render(request, 'products/product.html', context)
 
@@ -39,3 +42,8 @@ def search(request):
     }
     return render(request, 'products/search.html', context)
 
+def delete_product(request, product_id):
+    Product = get_object_or_404(product, pk=product_id)
+    Product.delete()
+    messages.success(request, 'The Product has been deleted')
+    return redirect('vendor_dashboard')

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load humanize %}
 {% block title %}
 | Costumer Dashboard
 {% endblock%}
@@ -45,34 +45,30 @@
             <thead>
               <tr>
                 <th scope="col">Product</th>
+                <th scope="col">Amount Paid</th>
                 <th scope="col">Go to product</th>
                 <th scope="col">Add Review</th>
                 <th></th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>SG Bat</td>
-                <td><a class="btn btn-light" href="#">View Product</a></td>
-                <td>
-                  <a class="btn btn-light" href="#">Add Review</a>
-                </td>
-              </tr>
-              <tr>
-                <td>SG Bat</td>
-                <td><a class="btn btn-light" href="#">View Product</a></td>
-                <td>
-                  <a class="btn btn-light" href="#">Add Review</a>
-                </td>
-              </tr>
-              <tr>
-                <td>SG Bat</td>
-                <td><a class="btn btn-light" href="#">View Product</a></td>
-                <td>
-                  <a class="btn btn-light" href="#">Add Review</a>
-                </td>
-              </tr>
-            </tbody>
+            {% if orders %}
+              {% for order in orders %}
+              {% for i in order.Product.all %}
+              <tbody>
+                <tr>
+                  <td>{{ i.title }}</td>
+                  <td>₹{{ order.money | intcomma}}</td>
+                  <td><a class="btn btn-light" href="{% url 'product' i.id %}">View Product</a></td>
+                  <td>
+                    <a class="btn btn-light" href="#">Add Review</a>
+                  </td>
+                </tr>
+              </tbody>
+              {% endfor %}
+              {% endfor %}
+            {% else %}
+            <p>No orders</p>
+            {% endif %}
           </table>
         </div>
       </div>

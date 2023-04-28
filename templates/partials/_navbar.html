@@ -61,6 +61,9 @@
             </form>
         </li>
         {% elif user.is_vendor %}
+        <li class="nav-item mr-3">
+          <a class="nav-link" href="{% url 'placed_orders' %}">Placed Orders</a>
+        </li>
         <li 
           {% if 'vendor_dashboard' in request.path %}
             class="nav-item active mr-3"

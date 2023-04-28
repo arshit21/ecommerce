@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages, auth
 from .models import User, Customer, Vendor
 from products.models import product
+from orders.models import order
 
 def register_customer(request):
     if request.method == 'POST':
@@ -65,7 +66,7 @@ def register_vendor(request):
                     user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, is_vendor=True)
                     user.save()
                     vendor = Vendor.objects.create(user_id=user.id,username=username, email=email, first_name=first_name, last_name=last_name,)
-                    user.save()
+                    vendor.save()
                     messages.success(request, 'You are now registered and can log in')
                     return redirect('login')
         else:
@@ -95,8 +96,10 @@ def login(request):
 def customer_dashboard(request):
     username = request.user.username
     customer = Customer.objects.filter(username=username)
+    orders = order.objects.filter(customer_username=username)
     context = {
-        'customers': customer
+        'customers': customer,
+        'orders': orders,
     }
     return render(request, 'accounts/customer_dashboard.html', context)
 
@@ -128,3 +131,12 @@ def add_money(request):
         return redirect('customer_dashboard')
     else:
         return render(request, 'accounts/add_money.html')
+def vendor_orders(request):
+    username = request.user.username
+    vendors = Vendor.objects.filter(username=username)
+    for vendor in vendors:
+        products = product.objects.filter(vendor=vendor, sales__gte=1)
+    context = {
+        'products': products
+    }
+    return render(request, 'accounts/vendor_orders.html', context)
