@@ -40,18 +40,19 @@
       <div class="row">
         <div class="col-md-12">
           <h2>Welcome {{ customer.username }}</h2>
-          <p>Here are your past orders</p>
+          <p>Here are your past orders:-</p>
           <table class="table">
+            {% if orders %}
             <thead>
               <tr>
                 <th scope="col">Product</th>
                 <th scope="col">Amount Paid</th>
                 <th scope="col">Go to product</th>
+                <th scope="col">Date Ordered</th>
                 <th scope="col">Add Review</th>
                 <th></th>
               </tr>
             </thead>
-            {% if orders %}
               {% for order in orders %}
               {% for i in order.Product.all %}
               <tbody>
@@ -59,6 +60,7 @@
                   <td>{{ i.title }}</td>
                   <td>₹{{ order.money | intcomma}}</td>
                   <td><a class="btn btn-light" href="{% url 'product' i.id %}">View Product</a></td>
+                  <td>{{ order.order_date }}</td>
                   <td>
                     <a class="btn btn-light" href="#">Add Review</a>
                   </td>
@@ -67,10 +69,29 @@
               {% endfor %}
               {% endfor %}
             {% else %}
-            <p>No orders</p>
+            <p>No Past orders</p>
             {% endif %}
           </table>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="dashboard" class="py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Your Address</h2>
+          <h5>Address Line 1: </h5><p>{{customer.address_line_1}}</p>
+          <hr>
+          <h5>Address Line 2: </h5><p>{{customer.address_line_2}}</p>
+          <hr>
+          <h5>City: </h5><p>{{customer.city}}</p>
+          <hr>
+          <h5>State: </h5><p>{{customer.state}}</p>
+          <hr>
+        </div>
+        <a href="{% url 'change_address' %}" class="btn btn-primary btn">Change Address</a>
       </div>
     </div>
   </section>

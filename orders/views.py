@@ -4,6 +4,7 @@ from django.contrib import messages
 from .models import order
 from products.models import product
 from accounts.models import Customer
+from django.core.mail import send_mail
 
 def add_product(request):
     username = request.user.username
@@ -49,27 +50,35 @@ def buy_now(request, product_id):
         customer_username = request.user.username
         customers = Customer.objects.filter(username=customer_username)
         Product = get_object_or_404(product, pk=product_id)
-        if request.POST['units']:          
+        vendor = Product.vendor
+        if request.POST['units'] != None:          
             units = request.POST['units']
             units = int(units)
         else:
-            units = 1
+            messages.error(request, 'Select number of units')
+            return redirect('product', product_id)
         price = Product.price
         for customer in customers:
             balance = customer.balance
             balance = int(balance)
             cost = price*units
-            if cost > balance:
-                messages.error(request, 'Insufficient balance')
-                return redirect('product', product_id)
-            elif units > Product.units_remaining:
+            if units > Product.units_remaining:
                 messages.error(request, 'Out of Stock')
-                return redirect('product', product_id)               
+                return redirect('product', product_id)   
+            elif cost > balance:
+                messages.error(request, 'Insufficient balance')
+                return redirect('product', product_id)            
             else:
                 customer.balance = balance - cost
                 Product.units_remaining = Product.units_remaining - units
                 Product.sales = Product.sales + units
-                Order = order.objects.create(customer_username=customer_username, units_ordered=units, money=cost)
+                Order = order.objects.create(customer_username=customer_username, units_ordered=units, money=cost, vendor_username=Product.vendor.username,
+                                            product_title=Product.title, product_id=Product.id)
+                subject = 'New Product Ordered at TSS'
+                message = f'A new order has been placed for your product [{Product.title}], for further details, check your dashboard at TSS'
+                email_from = 'f20220331@pilani.bits-pilani.ac.in'
+                recipent_email = [f'{vendor.email}',]   
+                send_mail(subject, message, email_from, recipent_email)
                 Order.Product.add(Product)
                 Product.save()
                 Order.save()

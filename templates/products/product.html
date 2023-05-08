@@ -137,14 +137,14 @@
             <div class="col-md-16 mb-3">
               <label class="sr-only"></label>
               <select name="units" class="form-control">
-                <option selected="true" disabled="disabled">Select Units (Default = 1)</option>
+                <option selected="true" disabled="disabled">Select Units</option>
                 {% for key, value in units_choices.items %}
                   <option value="{{ key }}">{{ value }}</option>
                 {% endfor %}
               </select>
             </div>
             <div>
-            <input type="submit" value="Buy Now" class="btn btn-light mb-4">
+            <input type="submit" value="Buy Now" class="btn btn-light mb-4" value=1>
             </div>
           <div>
             <button class="btn btn-light mb-4" type="submit">Add to Cart</button>

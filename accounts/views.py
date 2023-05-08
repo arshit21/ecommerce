@@ -133,10 +133,30 @@ def add_money(request):
         return render(request, 'accounts/add_money.html')
 def vendor_orders(request):
     username = request.user.username
-    vendors = Vendor.objects.filter(username=username)
-    for vendor in vendors:
-        products = product.objects.filter(vendor=vendor, sales__gte=1)
+    orders = order.objects.filter(vendor_username=username)
     context = {
-        'products': products
+        'orders': orders
     }
     return render(request, 'accounts/vendor_orders.html', context)
+
+def change_address(request):
+    username = request.user.username
+    customers = Customer.objects.filter(username=username)
+    if request.method == 'POST':
+        address_line_1 = request.POST['address_line_1']
+        address_line_2 = request.POST['address_line_2']
+        city = request.POST['city']
+        state = request.POST['state']
+        for customer in customers:
+            customer.address_line_1 = address_line_1
+            customer.address_line_2 = address_line_2
+            customer.city = city
+            customer.state = state
+            customer.save()
+            messages.success(request, 'address has been updated')
+            return redirect('customer_dashboard')
+    else:
+        context = {
+        'customers': customers
+        }
+        return render(request, 'accounts/change_address.html', context)

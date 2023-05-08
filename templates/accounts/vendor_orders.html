@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block title %}
 | Placed Orders
 {% endblock %}
@@ -38,19 +39,27 @@
           <h2>Welcome {{ request.user.username }}</h2>
           <p>Here are all the orders that have been placed for your products</p>
           <table class="table">
+            {% if orders %}
             <thead>
               <tr>
                 <th scope="col">Product</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Units Ordered</th>
+                <th scope="col">Money Paid</th>
+                <th scope="col">Date & Time of Order</th>
                 <th scope="col"></th>
               </tr>
             </thead>
-            {% if products %}
-                {% for product in products %}
+                {% for order in orders %}
                 <tbody>
                 <tr>
-                    <td>{{ product.title }}</td>
+                    <td>{{ order.product_title }}</td>
+                    <td>{{ order.customer_username }}</td>
+                    <td>{{ order.units_ordered }}</td>
+                    <td>₹{{ order.money | intcomma }}</td>
+                    <td>{{ order.order_date }}</td>
                     <td>
-                    <a class="btn btn-light" href="{% url 'product' product.id %}">View Product</a>
+                    <a class="btn btn-light" href="{% url 'product' order.product_id %}">View Product</a>
                     </td>
                 </tr>
                 </tbody>
