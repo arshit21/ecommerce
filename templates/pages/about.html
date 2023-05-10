@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% load static %}
+{% load humanize %}
 {% block title%}
 | About
 {% endblock %}
@@ -9,7 +10,7 @@
       <div class="row text-center">
         <div class="col-md-12">
           <h1 class="display-4">About The Sport Store</h1>
-          <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
+          <p class="lead">Your one-stop shop for top-notch sports gear</p>
         </div>
       </div>
     </div>
@@ -35,21 +36,31 @@
       <div class="row">
         <div class="col-md-8">
           <h2>We Sell The Best Products</h2>
-          <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
-          <img src="{% static 'imag/sports.webp' %}" alt="">
-          <p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis esse officia repudiandae ad saepe ex, amet
-            neque quod accusamus rem quia magnam magni dolorum facilis ullam minima perferendis? Exercitationem at quaerat
-            commodi id libero eveniet harum perferendis laborum molestias quia.</p>
+          <br>
+          <img src="{% static 'imag/sports.jpg' %}" alt="">
+          <p class="mt-4">Welcome to The Sports Store! We are a premier sports retailer located in the heart of the city, dedicated to 
+            providing our customers with the best products in the country. Our store features an extensive collection of high-quality sports 
+            equipment, apparel, and accessories for athletes of all levels. We take pride in sourcing products from the top brands in the 
+            industry, including Nike, Adidas, Under Armour, and many more. Our team of knowledgeable staff is committed to helping you find 
+            the perfect products to meet your needs and exceed your expectations. Whether you are an aspiring athlete or a seasoned professional,
+             we are confident that you will find what you are looking for at The Sports Store. We stand behind every product we sell and are 
+             committed to providing exceptional customer service. Thank you for choosing The Sports Store for all your sports needs!.</p>
         </div>
         <div class="col-md-4">
+          <h2 class="card-title">Most Sold Product</h2>
+          <br>
           <div class="card">
-            <img class="card-img-top" src="assets/img/realtors/kyle.jpg" alt="Most sold product">
+            {% for product in products %}
+            <a href="{% url 'product' product.id %}">
+            <img class="card-img-top" src="{{ product.photo_main.url }}" href=" {% url 'product' product.id %}" alt="Most sold product">
+            </a>
             <div class="card-body">
-              <h5 class="card-title">Most Sold Product</h5>
-              <h6 class="text-secondary">SG Bat</h6>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis nesciunt amet, illo itaque similique repellat.
-                content.
-              </p>
+              <a href="{% url 'product' product.id %}">        
+              <h4 class="text-secondary" >{{ product.title }}</h4>
+              </a>
+              <h4 class="card-text">₹{{ product.price | intcomma}}
+              </h5>
+              {% endfor %}
             </div>
           </div>
         </div>

@@ -47,8 +47,8 @@
               <tr>
                 <th scope="col">Product</th>
                 <th scope="col">Amount Paid</th>
-                <th scope="col">Go to product</th>
                 <th scope="col">Date Ordered</th>
+                <th scope="col">Go to product</th>
                 <th scope="col">Add Review</th>
                 <th></th>
               </tr>
@@ -59,8 +59,8 @@
                 <tr>
                   <td>{{ i.title }}</td>
                   <td>₹{{ order.money | intcomma}}</td>
-                  <td><a class="btn btn-light" href="{% url 'product' i.id %}">View Product</a></td>
                   <td>{{ order.order_date }}</td>
+                  <td><a class="btn btn-light" href="{% url 'product' i.id %}">View Product</a></td>
                   <td>
                     <a class="btn btn-light" href="#">Add Review</a>
                   </td>

@@ -12,4 +12,8 @@ def index(request):
     return render(request, 'pages/index.html', context)
 
 def about(request):
-    return render(request,'pages/about.html' )
+    products = product.objects.order_by('-sales')[:1]
+    context = {
+        'products': products
+    }
+    return render(request,'pages/about.html', context)

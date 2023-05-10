@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages, auth
 from .models import User, Customer, Vendor
 from products.models import product
-from orders.models import order
+from orders.models import order, cart
 
 def register_customer(request):
     if request.method == 'POST':
@@ -33,6 +33,8 @@ def register_customer(request):
                     user.save()
                     customer = Customer.objects.create(user_id=user.id,username=username, password=password, email=email, first_name=first_name, last_name=last_name, address_line_1=address_line_1, address_line_2=address_line_2, city=city, state=state)
                     customer.save()
+                    Cart = cart.objects.create(customer_username=username)
+                    Cart.save()
                     messages.success(request, 'You are now registered and can log in')
                     return redirect('login')
         else:

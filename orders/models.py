@@ -11,5 +11,14 @@ class order(models.Model):
     product_id = models.IntegerField(blank=True)
     money = models.IntegerField()
     order_date = models.DateTimeField(default=datetime.now, blank=True)
-    
-    
+
+class cart_object(models.Model):
+    customer_username = models.CharField(blank=True)
+    Product = models.ManyToManyField(product, blank=True)
+    units = models.IntegerField(blank=True)
+    price = models.IntegerField(blank=True)
+
+class cart(models.Model):
+    customer_username = models.CharField()
+    item = models.ManyToManyField(cart_object, blank=True)
+    money = models.IntegerField(default=0)

@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Vendor
 from django.contrib import messages
-from .models import order
+from .models import order, cart_object, cart
 from products.models import product
 from accounts.models import Customer
 from django.core.mail import send_mail
+import csv
+from django.http import HttpResponse
 
 def add_product(request):
     username = request.user.username
@@ -51,12 +53,8 @@ def buy_now(request, product_id):
         customers = Customer.objects.filter(username=customer_username)
         Product = get_object_or_404(product, pk=product_id)
         vendor = Product.vendor
-        if request.POST['units'] != None:          
-            units = request.POST['units']
-            units = int(units)
-        else:
-            messages.error(request, 'Select number of units')
-            return redirect('product', product_id)
+        units = request.POST['units']
+        units = int(units)
         price = Product.price
         for customer in customers:
             balance = customer.balance
@@ -86,3 +84,71 @@ def buy_now(request, product_id):
                 messages.success(request, 'The product has been ordered')
                 return redirect('index')
                 
+
+def export(request):
+    username = request.user.username
+
+    response = HttpResponse(content_type='text/csv')
+    writer = csv.writer(response)
+    writer.writerow(['Customer', 'Product', 'Units', 'Price Paid', 'Order Date'])
+
+    orders = order.objects.filter(vendor_username=username).values_list('customer_username', 'product_title',
+                                                                         'units_ordered', 'money', 'order_date')
+    
+    for Order in orders:
+        writer.writerow(Order)
+
+    response['Content-Disposition'] = 'attachment; filename="Your_orders.csv"'
+
+    return response
+
+def shopping_cart(request):
+    username = request.user.username
+    items = cart_object.objects.filter(customer_username=username)
+    Carts = cart.objects.filter(customer_username=username)
+    for Cart in Carts:
+        Cart.money = 0
+        for item in items:
+            Cart.money = Cart.money + item.price*item.units
+        context = {
+            'items': items,
+            'money': Cart.money
+        }
+    return render(request, 'orders/cart.html', context)
+
+def Add_to_Cart(request, product_id):
+    if request.method == 'POST':
+        customer_username = request.user.username
+        Product = get_object_or_404(product, pk=product_id)
+        units = request.POST['units']
+        units = int(units)
+        if units > Product.units_remaining:
+            messages.error(request, 'Out of Stock')
+            return redirect('product', product_id)  
+        else:
+            item = cart_object.objects.create(customer_username=customer_username, units=units, price=Product.price)
+            item.Product.add(Product)
+            item.save()
+            Cart = get_object_or_404(cart, customer_username=customer_username)
+            Cart.item.add(item)
+            Cart.save()
+            messages.success(request, 'The product has been added to the shopping cart')
+            return redirect('cart')
+
+def remove_from_cart(request, cart_object_id):
+    Cart_object = get_object_or_404(cart_object, pk=cart_object_id)
+    Cart_object.delete()
+    messages.success(request, 'The product has been removed from the cart')
+    return redirect('cart')
+
+def buy_from_cart(request):
+    customer_username = request.user.username
+    customers = Customer.objects.filter(username=customer_username)
+    Carts = cart.objects.filter(customer_username=customer_username)
+    for Cart in Carts:
+        for customer in customers:
+            if Cart.money > customer.balance:
+                messages.error(request, 'Not Enough Balance, Go to your dashboard to add more money')
+                return redirect('cart')
+            else:
+                pass

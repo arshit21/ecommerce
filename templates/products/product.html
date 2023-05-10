@@ -132,9 +132,10 @@
             </div>
 
             {% if user.is_customer %}
-            <form action="{% url 'buy_now' product.id %}" method="POST">
-              {% csrf_token %}
-            <div class="col-md-16 mb-3">
+            <div class="col-md-16 mb-4">
+              <form action="{% url 'buy_now' product.id %}" method="POST">
+                {% csrf_token %}
+              <div>
               <label class="sr-only"></label>
               <select name="units" class="form-control">
                 <option selected="true" disabled="disabled">Select Units</option>
@@ -143,12 +144,24 @@
                 {% endfor %}
               </select>
             </div>
-            <div>
             <input type="submit" value="Buy Now" class="btn btn-light mb-4" value=1>
+            </form>      
             </div>
-          <div>
-            <button class="btn btn-light mb-4" type="submit">Add to Cart</button>
-          </div>
+            <div class="col-md-16 mb-4">
+              <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                {% csrf_token %}
+              <div>
+              <label class="sr-only"></label>
+              <select name="units" class="form-control">
+                <option selected="true" disabled="disabled">Select Units</option>
+                {% for key, value in units_choices.items %}
+                  <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <input type="submit" value="Add To Cart" class="btn btn-light mb-4">
+            </form>      
+            </div>
           {% endif %}
           </div>
 
