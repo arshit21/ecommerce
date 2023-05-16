@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load humanize %}
 {% block title %}
-| Shopping Cart 
+| Wishlist
 {% endblock %}
 {% block content %}
 <section id="showcase-inner" class="py-5 text-white">
@@ -9,9 +9,8 @@
       <div class="row text-center">
         <div class="col-md-12">
           <h1 class="display-4">
-            <i class="fa fa-shopping-cart"></i> Shopping Cart </h1>
-          <h4 class="lead">Cart Subtotal : ₹{{ money | intcomma}} </h4>
-          <a href="{% url 'buy_from_cart' %}" class="btn btn-primary btn">Proceed To Buy</a>
+            <i class="fa fa-list"></i> Wishlist</h1>
+          <h4 class="lead">{{ customer }}'s wishlist </h4>
         </div>
       </div>
     </div>
@@ -26,7 +25,7 @@
             <a href="{% url 'index' %}">
               <i class="fas fa-home"></i> Home</a>
           </li>
-          <li class="breadcrumb-item active"> Shopping Cart</li>
+          <li class="breadcrumb-item active"> Wishlist</li>
         </ol>
       </nav>
     </div>
@@ -39,32 +38,34 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h4>Here is your Shopping Cart:-</h4>
+          <h4>Your Wishlist :-</h4>
           {% if items %}
           <table class="table">
             <thead>
               <tr>
                 <th scope="col">Product</th>
-                <th scope="col">Units</th>
                 <th scope="col">Price</th>
+                <th scope="col">Go to Product</th>
+                <th></th>
                 <th></th>
               </tr>
             </thead>
-          {% for item in items %}
-          {% for i in item.Product.all %}
+            {% for item in items %}
+            {% for i in item.Product.all %}
               <tbody>
                 <tr>
-                  <td> <a href="{% url 'product' i.id %}">{{ i.title }}</a></td>
-                  <td>{{ item.units}}</td>
-                  <td>{{ item.price }}</td>
-                  <td><a href="{% url 'remove_from_cart' item.id %}">Remove from cart</a></td>
+                  <td> {{ i.title }}</td>
+                  <td>₹{{ item.price | intcomma }} </td>
+                  <td><a class="btn btn-light" href="{% url 'product' i.id%}">View Product</a></td>
+                  <td><a href="{% url 'remove_from_wishlist' item.id %}">Remove From Wishlist</a></td>
+                  <td><a href="{% url 'wishlist_to_cart' item.id %}">Add to Cart</a></td>
                 </tr>
               </tbody>
-          {% endfor %}
-          {% endfor %}
-          {% else %}
-          <p>Nothing in Your Cart</p>
-          {% endif %}
+        {% endfor %}
+        {% endfor %}
+        {% else %}
+        <p>Nothing in Your Wishlist</p>
+        {% endif %}
         </table>
         </div>
       </div>

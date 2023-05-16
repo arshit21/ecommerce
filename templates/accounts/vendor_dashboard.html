@@ -71,6 +71,7 @@
                   </div>
                   <hr>
                   <a href="{% url 'product' product.id %}" class="btn btn-primary btn-block">More Info</a>
+                  <a href="{% url 'change_details' product.id %}" class="btn btn-secondary btn-block">Edit Product Details </a>
                   <a href="{% url 'delete_product' product.id %}" class="btn btn-danger btn-block">Delete Item</a>
                 </div>
               </div>

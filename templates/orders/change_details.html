@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title%}
+| Change Details
+{% endblock %}
+{% block content %}
+<section id="register" class="bg-light py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              <h4>
+                <i class="fas fa-user-plus"></i> Change Product Details</h4>
+            </div>
+            <div class="card-body">
+                {% include 'partials/_alerts.html' %}
+                <form action="{% url 'change_details' Product.id %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                  <div class="form-group">
+                  <label for="brand">Brand</label>
+                  <input type="text" name="brand" class="form-control" value = "{{Product.brand}}" required>
+                </div>
+                <div class="form-group">
+                  <label for="title">Title</label>
+                  <input type="text" name="title" class="form-control" value = "{{Product.title}}" required>
+                </div>
+                <div class="form-group">
+                  <label for="price">Price</label>
+                  <input type="number" name="price" class="form-control" value = "{{Product.price}}" required>
+                </div>
+                <div class="form-group">
+                  <label for="sport">Sport</label>
+                  <input type="text" name="sport" class="form-control" value = "{{Product.sport}}" required>
+                </div>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <input type="text" name="description" class="form-control" value = "{{Product.description}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="units_remaining">Units Remaining</label>
+                    <input type="number" name="units_remaining" class="form-control" value = "{{Product.units_remaining }}" required>
+                  </div>
+                <div class="form-group">
+                    <label for="dimensions">Dimensions</label>
+                    <input type="text" name="dimensions" class="dimensions" value = "{{Product.dimensions}}" required>
+                </div>
+                <input type="submit" value="Change Details" class="btn btn-secondary btn-block">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

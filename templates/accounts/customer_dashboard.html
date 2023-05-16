@@ -62,7 +62,7 @@
                   <td>{{ order.order_date }}</td>
                   <td><a class="btn btn-light" href="{% url 'product' i.id %}">View Product</a></td>
                   <td>
-                    <a class="btn btn-light" href="#">Add Review</a>
+                    <a class="btn btn-light" href="{% url 'add_review' i.id %}">Add Review</a>
                   </td>
                 </tr>
               </tbody>

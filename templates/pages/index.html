@@ -62,7 +62,8 @@
               </div>
               <div class="card-body">
                 <div class="listing-heading text-center">
-                  <h4 class="text-primary">{{ product.title }}</h4>
+                  <a href="{% url 'product' product.id %}">
+                  <h4 class="text-primary">{{ product.title }}</a></h4>
                 </div>
                 <hr>
                 <div class="row py-2 text-secondary">
@@ -101,23 +102,27 @@
           <i class="fas fa-comment fa-4x mr-4"></i>
           <hr>
           <h3>Sell your products with us</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
-            hic dignissimos ratione ea quae.</p>
+          <p>Boost your business and reach a wider audience by selling your products with us. Our platform provides a seamless and 
+            user-friendly selling experience, allowing you to showcase your products to a vast customer base. Benefit from our extensive 
+            marketing and customer support, and watch your sales soar. Join us today and unlock your business's full potential.</p>
             <a href="{% url 'register_vendor' %}" class="btn btn-primary btn-block">Become a vendor</a>
         </div>
         <div class="col-md-4">
           <i class="fas fa-home fa-4x mr-4"></i>
           <hr>
           <h3>Buy the best quality sports goods</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
-            hic dignissimos ratione ea quae.</p>
+          <p>Discover the ultimate destination for top-notch sports goods. Our store offers the best quality equipment and gear to enhance 
+            your performance and enjoyment. From durable footballs to reliable tennis rackets, we have everything you need to excel in your 
+            favorite sports. Shop with us and elevate your game to new heights.</p>
         </div>
         <div class="col-md-4">
           <i class="fas fa-suitcase fa-4x mr-4"></i>
           <hr>
           <h3>Fastest and Safest delivery options</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur
-            hic dignissimos ratione ea quae.</p>
+          <p>Experience the fastest and safest delivery options for all your needs. Our dedicated logistics team ensures prompt and 
+            secure delivery of your products right to your doorstep. With a seamless tracking system and efficient shipping methods, you 
+            can rest assured that your items will arrive swiftly and in pristine condition. Trust us for a hassle-free and reliable delivery 
+            experience.</p>
         </div>
       </div>
     </div>

@@ -1288,6 +1288,47 @@ select.form-control:focus::-ms-value {
   display: block;
   width: 100%; }
 
+  .form-control-2 {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 40px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
+    @media screen and (prefers-reduced-motion: reduce) {
+      .form-control-2 {
+        transition: none; } }
+    .form-control-2::-ms-expand {
+      background-color: transparent;
+      border: 0; }
+    .form-control-2:focus {
+      color: #495057;
+      background-color: #fff;
+      border-color: #265eb8;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(16, 40, 78, 0.25); }
+    .form-control-2::placeholder {
+      color: #6c757d;
+      opacity: 1; }
+    .form-control-2:disabled, .form-control-2[readonly] {
+      background-color: #e9ecef;
+      opacity: 1; }
+  
+  select.form-control-2:focus::-ms-value {
+    color: #495057;
+    background-color: #fff; }
+  
+  .form-control-2-file,
+  .form-control-2-range {
+    display: block;
+    width: 100%; }
+
 .col-form-label {
   padding-top: calc(0.375rem + 1px);
   padding-bottom: calc(0.375rem + 1px);

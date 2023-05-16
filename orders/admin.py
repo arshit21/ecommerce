@@ -1,11 +1,14 @@
 from django.contrib import admin
-from .models import order, cart, cart_object
+from import_export.admin import ImportExportMixin
 
-class OrdersAdmin(admin.ModelAdmin):
+from .models import cart, cart_object, order
+
+
+class OrdersAdmin(ImportExportMixin, admin.ModelAdmin):
     list_display = ('product_title', 'customer_username')
     list_display_links = ('product_title',)
 
-class CartsAdmin(admin.ModelAdmin):
+class CartsAdmin(ImportExportMixin, admin.ModelAdmin):
     list_display = ('customer_username',)
     list_display_links = ('customer_username',)
 

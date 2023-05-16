@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'accounts',
     'pages',
     'orders',
+    'import_export',
     'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -177,5 +178,7 @@ load_dotenv()
 EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
 MAILJET_API_KEY = os.getenv("MJ_API")
 MAILJET_API_SECRET = os.getenv("MJ_SECRET")
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 AUTH_USER_MODEL = 'accounts.User'

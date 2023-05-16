@@ -22,3 +22,8 @@ class cart(models.Model):
     customer_username = models.CharField()
     item = models.ManyToManyField(cart_object, blank=True)
     money = models.IntegerField(default=0)
+
+class wishlist(models.Model):
+    customer_username = models.CharField()
+    Product = models.ManyToManyField(product, blank=True)
+    price = models.IntegerField(blank=True)

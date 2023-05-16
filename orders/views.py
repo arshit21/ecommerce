@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import Vendor
 from django.contrib import messages
-from .models import order, cart_object, cart
+from .models import order, cart_object, cart, wishlist
 from products.models import product
 from accounts.models import Customer
 from django.core.mail import send_mail
@@ -114,6 +114,7 @@ def shopping_cart(request):
             'items': items,
             'money': Cart.money
         }
+    Cart.save()
     return render(request, 'orders/cart.html', context)
 
 def Add_to_Cart(request, product_id):
@@ -151,4 +152,93 @@ def buy_from_cart(request):
                 messages.error(request, 'Not Enough Balance, Go to your dashboard to add more money')
                 return redirect('cart')
             else:
-                pass
+                items = cart_object.objects.filter(customer_username=customer_username)
+                for item in items:
+                    for Product in item.Product.all():
+                        if item.units > Product.units_remaining:
+                            messages.error(request, 'Out of Stock')
+                            return redirect('cart')
+                        else:
+                            vendor = Product.vendor
+                            pay = Product.price*item.units
+                            customer.balance = customer.balance - pay
+                            Product.units_remaining = Product.units_remaining - item.units
+                            Product.sales = Product.sales + item.units
+                            Order = order.objects.create(customer_username=customer_username, units_ordered=item.units, money=pay, vendor_username=Product.vendor.username,
+                                                    product_title=Product.title, product_id=Product.id)
+                            subject = 'New Product Ordered at TSS'
+                            message = f'A new order has been placed for your product [{Product.title}], for further details, check your dashboard at TSS'
+                            email_from = 'f20220331@pilani.bits-pilani.ac.in'
+                            recipent_email = [f'{vendor.email}',]   
+                            send_mail(subject, message, email_from, recipent_email)
+                            Order.Product.add(Product)
+                            Product.save()
+                            Order.save()
+                            customer.save()
+                            item.delete()
+                messages.success(request, 'The products have been ordered')
+                return redirect('index')
+                        
+def add_to_wishlist(request, product_id):
+    customer_username = request.user.username
+    Product = get_object_or_404(product, pk=product_id)
+    item = wishlist.objects.create(customer_username=customer_username, price=Product.price)
+    item.Product.add(Product)
+    item.save()
+    messages.success(request, 'Added to Wishlist')
+    return redirect('wishlist')
+
+def Wishlist(request):
+    customer_username = request.user.username
+    items = wishlist.objects.filter(customer_username=customer_username)
+    context = {
+        'customer': customer_username,
+        'items': items
+    }
+    return render(request, 'orders/wishlist.html', context)
+
+def remove_from_wishlist(request, wishlist_id):
+    item = get_object_or_404(wishlist, pk=wishlist_id)
+    item.delete()
+    messages.success(request, 'The product has been removed from your wishlist')
+    return redirect('wishlist')
+
+def change_product_details(request, product_id):
+    username = request.user.username
+    Product = get_object_or_404(product, pk=product_id)
+    if request.method == 'POST':
+        brand = request.POST['brand']
+        title = request.POST['title']
+        price = request.POST['price']
+        sport = request.POST['sport']
+        description = request.POST['description']
+        units_remaining = request.POST['units_remaining']
+        dimensions = request.POST['dimensions']
+        Product.brand = brand
+        Product.title = title
+        Product.price = price
+        Product.sport = sport
+        Product.description = description
+        Product.units_remaining = units_remaining
+        Product.dimensions = dimensions
+        Product.save()
+        messages.success(request, 'The Details of the product have been successfully edited')
+        return redirect('product', product_id)
+    else:
+        context = {
+            'Product': Product
+        }
+    return render(request, 'orders/change_details.html', context)
+
+def wishlist_to_cart(request, wishlist_id):
+    customer_username = request.user.username
+    wishlist_item = get_object_or_404(wishlist, pk=wishlist_id)
+    for Products in wishlist_item.Product.all():
+        product_id = Products.id
+    Product = get_object_or_404(product, pk=product_id)
+    item = cart_object.objects.create(units=1, price=wishlist_item.price, customer_username=customer_username)
+    item.Product.add(Product)
+    item.save()
+    wishlist_item.delete()
+    messages.success(request, 'Product has been added to cart')
+    return redirect('cart')

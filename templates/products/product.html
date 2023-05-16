@@ -132,10 +132,11 @@
             </div>
 
             {% if user.is_customer %}
+            <p style = "padding: 15px;"><a href="{% url 'add_to_wishlist' product.id %}">Add to Wishlist</a></p>
             <div class="col-md-16 mb-4">
               <form action="{% url 'buy_now' product.id %}" method="POST">
                 {% csrf_token %}
-              <div>
+              <div style="padding: 15px;">
               <label class="sr-only"></label>
               <select name="units" class="form-control">
                 <option selected="true" disabled="disabled">Select Units</option>
@@ -144,13 +145,13 @@
                 {% endfor %}
               </select>
             </div>
-            <input type="submit" value="Buy Now" class="btn btn-light mb-4" value=1>
+            <input type="submit" value="Buy Now" class="btn btn-light mb-4"  value=1>
             </form>      
             </div>
             <div class="col-md-16 mb-4">
               <form action="{% url 'add_to_cart' product.id %}" method="POST">
                 {% csrf_token %}
-              <div>
+              <div style="padding: 15px;">
               <label class="sr-only"></label>
               <select name="units" class="form-control">
                 <option selected="true" disabled="disabled">Select Units</option>
@@ -160,7 +161,7 @@
               </select>
             </div>
             <input type="submit" value="Add To Cart" class="btn btn-light mb-4">
-            </form>      
+            </form>               
             </div>
           {% endif %}
           </div>
@@ -169,12 +170,31 @@
 
           
 
-          <!-- Description -->
-          <div class="row mb-5">
-            <div class="col-md-12">
-              {{ product.description }}
-          </div>
-        </div>
-  </section>
-  {% endif %}
+<!-- Description -->
+  <div class="row mb-5">
+    <div class="col-md-12">
+      <h2>Description</h2>
+      <br>
+      {{ product.description }}
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-md-12">
+      <h2>Product Reviews</h2>
+      <br>
+      {% if reviews %}
+      {% for review in reviews %}
+      <h5> {{ review.title }}</h5>
+      <h6><i class="fas fa-user"></i> {{ review.customer_username }}</h6>
+      {{ review.content }}
+      <hr>
+      {% endfor %}
+      {% else %}
+      No Product Reviews
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
 {% endblock %}

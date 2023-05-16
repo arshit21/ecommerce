@@ -20,6 +20,12 @@ class product(models.Model):
     def __str__(self):
         return self.title
 
+class review(models.Model):
+    customer_username = models.CharField()
+    Product = models.ForeignKey(product, on_delete=models.DO_NOTHING)
+    title = models.CharField(max_length=500)
+    content = models.TextField()
+
 
 
 
