@@ -35,12 +35,27 @@
 <!-- Alerts -->
 {% include 'partials/_alerts.html' %}
 
+
   <section id="dashboard" class="py-4">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <h2>Welcome {{ customer.username }}</h2>
-          <p>Here are your past orders:-</p>
+          <br>
+          <h3>Connect To Google</h3>
+          <p>Connect Your TSS Customer Account to Google</p>
+          <div class="container">
+            <div class="row">
+              <div class="row-md-6 mx-auto">
+                <p></p>
+                <a href="{% url 'socialaccount_connections' %}" class="btn btn-secondary btn">
+                  <i class="fab fa-google"></i> Connect</a>
+              </div>
+            </div>
+          </div>
+          <br>
+          
+          <h2>Here are your past orders:-</h2>
           <table class="table">
             {% if orders %}
             <thead>

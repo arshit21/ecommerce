@@ -1,0 +1,38 @@
+{% extends "socialaccount/base.html" %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<section id="showcase-inner" class="py-5 text-white">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-12">
+        <h1 class="display-4">
+          <i class="fab fa-google"></i> Google Sign In</h1>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="row">
+  <div class="col-md-6 mx-auto">
+{% if process == "connect" %}
+<h1>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h1>
+
+<p>{% blocktrans with provider.name as provider %}You are about to connect a new third party account from {{ provider }}.{% endblocktrans %}</p>
+{% else %}
+<br>
+<h4>{% blocktrans with provider.name as provider %}You are about to sign in using a third party account from {{ provider }}.{% endblocktrans %}</h4>
+{% endif %}
+</div>
+</div>
+<div class="row">
+  <div class="col-md-1 mx-auto">
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-secondary">{% trans "Continue" %}</button>
+</form>
+<br>
+  </div>
+</div>
+{% endblock %}

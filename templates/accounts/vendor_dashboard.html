@@ -32,6 +32,28 @@
   </div>
 </section>
 
+<section id="dashboard" class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Welcome {{ user.username }}</h2>
+        <br>
+        <h3>Connect To Google</h3>
+        <p>Connect Your TSS Customer Account to Google</p>
+        <div class="container">
+          <div class="row">
+            <div class="row-md-6 mx-auto">
+              <p></p>
+              <a href="{% url 'socialaccount_connections' %}" class="btn btn-secondary btn">
+                <i class="fab fa-google"></i> Connect</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
   <!-- Products -->
   <section id="listings" class="py-5">
     <div class="container">

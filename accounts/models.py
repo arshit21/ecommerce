@@ -13,10 +13,10 @@ class Customer(models.Model):
     username = models.CharField(max_length=100)
     email = models.EmailField()
     password = models.CharField()
-    address_line_1  = models.CharField(max_length=200)
-    address_line_2 = models.CharField(max_length=200)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
+    address_line_1  = models.CharField(max_length=200, blank=True)
+    address_line_2 = models.CharField(max_length=200, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    state = models.CharField(max_length=100, blank=True)
     balance = models.IntegerField(default=0)
     def __str__(self):
         return self.first_name
