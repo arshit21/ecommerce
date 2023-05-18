@@ -21,7 +21,7 @@ class product(models.Model):
         return self.title
 
 class review(models.Model):
-    customer_username = models.CharField()
+    customer_username = models.CharField(max_length=100)
     Product = models.ForeignKey(product, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=500)
     content = models.TextField()

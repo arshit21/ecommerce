@@ -12,7 +12,7 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     email = models.EmailField()
-    password = models.CharField()
+    password = models.CharField(max_length=200)
     address_line_1  = models.CharField(max_length=200, blank=True)
     address_line_2 = models.CharField(max_length=200, blank=True)
     city = models.CharField(max_length=100, blank=True)
