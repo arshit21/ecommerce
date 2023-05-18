@@ -176,14 +176,6 @@ LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_FROM_EMAIL = os.getenv("EMAIL")
 
-EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
-MAILJET_API_KEY = os.getenv("MJ_API")
-MAILJET_API_SECRET = os.getenv("MJ_SECRET")
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv("EMAIL")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
-
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
