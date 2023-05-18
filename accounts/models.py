@@ -8,11 +8,11 @@ class User(AbstractUser):
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    username = models.CharField(max_length=100)
-    email = models.EmailField()
-    password = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
+    username = models.CharField(max_length=100, blank=True)
+    email = models.EmailField(blank=True)
+    password = models.CharField(max_length=200, blank=True)
     address_line_1  = models.CharField(max_length=200, blank=True)
     address_line_2 = models.CharField(max_length=200, blank=True)
     city = models.CharField(max_length=100, blank=True)
@@ -23,9 +23,9 @@ class Customer(models.Model):
 
 class Vendor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    username = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
+    username = models.CharField(max_length=100, blank=True)
     email = models.EmailField()
     def __str__(self):
         return self.first_name
