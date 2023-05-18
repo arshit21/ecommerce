@@ -188,3 +188,8 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 AUTH_USER_MODEL = 'accounts.User'
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
